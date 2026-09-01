@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>富林里民系統｜管理後台</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>案件管理後台</h1>
+    <p>查看居民反映案件、更新狀態、留下處理紀錄。此為瀏覽器示範版。</p>
+    <div class="topbar"><a href="index.html" class="btn">回居民前台</a></div>
+  </header>
+
+  <section class="kpi">
+    <div class="card"><span class="note">全部案件</span><strong id="kpiAll">0</strong></div>
+    <div class="card"><span class="note">處理中</span><strong id="kpiDoing">0</strong></div>
+    <div class="card"><span class="note">已完成</span><strong id="kpiDone">0</strong></div>
+    <div class="card"><span class="note">超過7天未完成</span><strong id="kpiLate">0</strong></div>
+  </section>
+
+  <section class="section card">
+    <div class="row">
+      <select id="filterStatus" onchange="renderCases()">
+        <option value="">全部狀態</option>
+        <option>已收到</option>
+        <option>確認中</option>
+        <option>已通報權責單位</option>
+        <option>處理中</option>
+        <option>待其他單位處理</option>
+        <option>已完成</option>
+      </select>
+      <input id="keyword" placeholder="搜尋案件編號、地點、內容" oninput="renderCases()">
+    </div>
+    <div class="table-wrap" style="margin-top:14px">
+      <table>
+        <thead><tr><th>案件</th><th>分類</th><th>地點／問題</th><th>狀態</th><th>更新</th><th>操作</th></tr></thead>
+        <tbody id="caseRows"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<div id="editModal" class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-head"><h2>更新案件</h2><button class="close" onclick="closeModal()">×</button></div>
+    <input type="hidden" id="editId">
+    <label>狀態</label>
+    <select id="editStatus">
+      <option>已收到</option><option>確認中</option><option>已通報權責單位</option>
+      <option>處理中</option><option>待其他單位處理</option><option>已完成</option>
+    </select>
+    <div style="height:12px"></div>
+    <label>處理紀錄</label>
+    <textarea id="editNote" placeholder="例如：已通報區公所工務課，等待派工。"></textarea>
+    <button class="btn primary" onclick="saveUpdate()">儲存更新</button>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

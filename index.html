@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>富林里民即時反映系統</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>富林里民即時反映系統</h1>
+    <p>反映有紀錄・處理有進度・完成有通知。道路、路燈、排水、環境與公共設施問題，都可以在這裡留下紀錄。</p>
+    <div class="topbar">
+      <button class="btn" onclick="openPanel('report')">我要反映問題</button>
+      <button class="btn soft" onclick="openPanel('track')">查詢處理進度</button>
+      <a id="lineBtn" class="btn line" target="_blank">加入官方 LINE</a>
+    </div>
+  </header>
+
+  <section class="grid">
+    <article class="card action-card" onclick="openPanel('report')">
+      <div class="icon">📝</div><h3>我要反映問題</h3>
+      <p>選擇問題分類，留下地點、照片與說明。</p>
+    </article>
+    <article class="card action-card" onclick="openPanel('track')">
+      <div class="icon">🔎</div><h3>查詢處理進度</h3>
+      <p>輸入案件編號，查看目前處理狀態。</p>
+    </article>
+    <article class="card action-card" onclick="openPanel('welfare')">
+      <div class="icon">🧓</div><h3>福利・補助資訊</h3>
+      <p>集中整理長者、弱勢、育兒與地方補助資訊。</p>
+    </article>
+    <article class="card action-card" onclick="openPanel('announce')">
+      <div class="icon">📢</div><h3>里務公告</h3>
+      <p>停水、施工、清潔、活動與重要通知。</p>
+    </article>
+    <article class="card action-card" onclick="openPanel('activity')">
+      <div class="icon">📅</div><h3>活動資訊</h3>
+      <p>里民活動、宣導與社區行程。</p>
+    </article>
+    <article class="card action-card" onclick="openPanel('contact')">
+      <div class="icon">💬</div><h3>聯絡・其他問題</h3>
+      <p>不知道如何分類，也可以直接留言。</p>
+    </article>
+  </section>
+
+  <section id="report" class="section panel card">
+    <h2>我要反映問題</h2>
+    <p class="note">原則上於 <b>7 天內提供處理進度或回覆</b>；跨機關、工程或預算案件，實際完成時間仍依權責單位為準。</p>
+    <form id="reportForm">
+      <div class="row">
+        <div>
+          <label>問題分類</label>
+          <select id="category" required>
+            <option value="">請選擇</option>
+            <option>💡 路燈・照明</option>
+            <option>🛣️ 道路・交通</option>
+            <option>💧 水溝・排水</option>
+            <option>🧹 環境・清潔</option>
+            <option>🌳 公共設施</option>
+            <option>👴 長者・社福</option>
+            <option>🏠 其他里內問題</option>
+          </select>
+        </div>
+        <div>
+          <label>地點</label>
+          <input id="location" placeholder="例如：富山二街○○號附近" required>
+        </div>
+      </div>
+      <div>
+        <label>問題說明</label>
+        <textarea id="description" placeholder="請簡單描述發生什麼問題..." required></textarea>
+      </div>
+      <div class="row">
+        <div>
+          <label>姓名／稱呼（選填）</label>
+          <input id="name" placeholder="王先生">
+        </div>
+        <div>
+          <label>聯絡方式（選填）</label>
+          <input id="contactValue" placeholder="手機、LINE 名稱或 Email">
+        </div>
+      </div>
+      <div>
+        <label>照片網址（示範版）</label>
+        <input id="photoUrl" placeholder="正式版可改成直接上傳照片">
+      </div>
+      <button class="btn primary" type="submit">送出案件</button>
+    </form>
+    <div id="submitResult" style="margin-top:14px"></div>
+  </section>
+
+  <section id="track" class="section panel card">
+    <h2>查詢處理進度</h2>
+    <div class="row">
+      <input id="trackId" placeholder="輸入案件編號，例如 FL-20260901-001">
+      <button class="btn primary" onclick="trackCase()">查詢</button>
+    </div>
+    <div id="trackResult" style="margin-top:16px"></div>
+  </section>
+
+  <section id="welfare" class="section panel card">
+    <h2>福利・補助資訊</h2>
+    <p>正式上線後，可把政府補助、長者福利、急難救助、育兒及水源回饋等資訊集中在此頁，並附申請條件與承辦窗口。</p>
+  </section>
+
+  <section id="announce" class="section panel card">
+    <h2>里務公告</h2>
+    <p>此區可串接後台公告，發布道路施工、停水停電、環境清潔、會議與緊急通知。</p>
+  </section>
+
+  <section id="activity" class="section panel card">
+    <h2>活動資訊</h2>
+    <p>可放里民活動、社區課程、健康篩檢、宣導活動與報名連結。</p>
+  </section>
+
+  <section id="contact" class="section panel card">
+    <h2>聯絡・其他問題</h2>
+    <p>如果不知道該選哪個分類，可以直接透過官方 LINE 留言，或先送出「其他里內問題」。</p>
+    <a id="lineBtn2" class="btn line" target="_blank">開啟官方 LINE</a>
+  </section>
+
+  <div class="footer">Prototype v1｜本版本資料僅儲存在目前瀏覽器，正式上線應串接資料庫與 LINE Messaging API。</div>
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
